@@ -4,6 +4,9 @@ import {z} from "zod";
 import { userValidation } from "@/schemas/signUpSchema";
 import { NextRequest } from "next/server";
 
+// Force this route to be dynamic
+export const dynamic = 'force-dynamic';
+
 const UsernameQuerySchema = z.object({
     username: userValidation
 });
@@ -12,7 +15,7 @@ export async function GET(request:NextRequest){
     try {
       
         await dbconnect();
-        const {searchParams} = new URL(request.url);
+        const { searchParams } = request.nextUrl;
         const queryParam = {
             username : searchParams.get('username')
         }
